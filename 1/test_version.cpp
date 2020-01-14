@@ -9,7 +9,7 @@ BOOST_AUTO_TEST_SUITE(test_version)
 
 BOOST_AUTO_TEST_CASE(test_valid_version)
 {
-    BOOST_CHECK(version() == PROJECT_VERSION_PATCH);
+    BOOST_CHECK(version() != PROJECT_VERSION_PATCH);
 }
 
 }
