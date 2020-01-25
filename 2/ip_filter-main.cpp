@@ -26,7 +26,7 @@ int main()
 */
     try
     {
-        std::multiset<uIpV4> setOfIpAddr = readDataFromFileToUipV4(gRealFileName);
+        std::multiset<uIpV4> setOfIpAddr = readDataFromFileToUipV4(gfileName);
 
         std::vector<std::function<bool(decltype(setOfIpAddr.rbegin()) ipAddr)>> poolOfTasks;
         poolOfTasks.push_back([](auto it) { return true; });

@@ -39,15 +39,14 @@ bool operator<(const uIpV4 &rhs, const uIpV4 &lhs)
     */
 }
 
-std::multiset<uIpV4> readDataFromFileToUipV4(const std::string &fullFileName)
+std::multiset<uIpV4> readDataFromFileToUipV4(const std::string &fileName)
 {
-
 #ifdef __READFROMFILE__
-    std::ifstream inputData(fullFileName, std::ifstream::in);
+    std::ifstream inputData(fileName, std::ifstream::in);
 
     if (!inputData.is_open())
     {
-        throw std::logic_error("I cannot open file " + fullFileName + "\n");
+        throw std::logic_error("I cannot open file " + fileName + "\n");
     }
 #endif
     
@@ -68,6 +67,7 @@ std::multiset<uIpV4> readDataFromFileToUipV4(const std::string &fullFileName)
 uIpV4 parsStrToUipV4(const std::string &stBuffe)
 {
     std::cmatch result;
+    // Начал использовать регулярку - это очень медленно :(
     std::regex regular("(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)");
 
     if (std::regex_search(stBuffe.c_str(), result, regular))
