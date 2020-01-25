@@ -15,6 +15,9 @@ union uIpV4 {
     unsigned int valueForComparison;
 };
 
+static_assert(sizeof(int) == 4, "int mast be 4 bite");
+static_assert(sizeof(uIpV4) == 4, "You have a problem with POD struct");
+
 std::ostream &operator<<(std::ostream &stream, const uIpV4 &data);
 bool operator<(const uIpV4 &rhs, const uIpV4 &lhs);
 
