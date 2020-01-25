@@ -29,7 +29,7 @@ int main()
         std::multiset<uIpV4> setOfIpAddr = readDataFromFileToUipV4(gfileName);
 
         std::vector<std::function<bool(decltype(setOfIpAddr.rbegin()) ipAddr)>> poolOfTasks;
-        poolOfTasks.push_back([](auto it) { return true; });
+        poolOfTasks.push_back([]([[maybe_unused]] auto it) { return true; });
         poolOfTasks.push_back([](auto it) { return gFirstBitOne == (it->valueForComparison & 0xFF); });
         poolOfTasks.push_back([](auto it) { return gFirst46Second70 == (it->valueForComparison & 0xFFFF); });
         poolOfTasks.push_back([](auto it) { return ((gAny46 == (it->ipV4.v1)) || (gAny46 == (it->ipV4.v2)) || (gAny46 == (it->ipV4.v3)) || (gAny46 == (it->ipV4.v4))); });

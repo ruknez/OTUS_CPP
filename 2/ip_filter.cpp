@@ -39,7 +39,7 @@ bool operator<(const uIpV4 &rhs, const uIpV4 &lhs)
     */
 }
 
-std::multiset<uIpV4> readDataFromFileToUipV4(const std::string &fileName)
+std::multiset<uIpV4> readDataFromFileToUipV4([[maybe_unused]] const std::string &fileName)
 {
 #ifdef __READFROMFILE__
     std::ifstream inputData(fileName, std::ifstream::in);
@@ -49,13 +49,13 @@ std::multiset<uIpV4> readDataFromFileToUipV4(const std::string &fileName)
         throw std::logic_error("I cannot open file " + fileName + "\n");
     }
 #endif
-    
+
     std::multiset<uIpV4> tmpIpSet;
     std::string stBuffer = "";
 #ifdef __READFROMFILE__
     while (getline(inputData, stBuffer))
 #else
-     while (getline(std::cin, stBuffer))
+    while (getline(std::cin, stBuffer))
 #endif
     {
         tmpIpSet.insert(parsStrToUipV4(stBuffer));

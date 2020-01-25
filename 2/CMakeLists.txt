@@ -13,7 +13,7 @@ add_executable(sortIpV4HW2_cli ip_filter-main.cpp)
 add_library(sortIpV4HW2 ip_filter.cpp)
 
 set_target_properties(sortIpV4HW2_cli sortIpV4HW2 PROPERTIES
-    CXX_STANDARD 14
+    CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
 
@@ -30,12 +30,11 @@ if (MSVC)
     )
 else ()
     target_compile_options(sortIpV4HW2_cli PRIVATE
-        -Wall -O2 -Wextra -pedantic # O2 решает (особеено в этом задании прирост производительности в 4 раза)
+        -Wall -O2 -Wextra -pedantic # -O2 решает (особеено в этом задании прирост производительности в 4 раза)
     )
     target_compile_options(sortIpV4HW2 PRIVATE
         -Wall -O2 -Wextra -pedantic
     )
 endif()
-
 
 install(TARGETS sortIpV4HW2_cli RUNTIME DESTINATION bin)
