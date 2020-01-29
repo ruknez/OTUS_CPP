@@ -22,21 +22,6 @@ bool operator<(const uIpV4 &rhs, const uIpV4 &lhs)
 {
     // все из-за биг/лител представления числа
     return SWAP_INT32(rhs.valueForComparison) < SWAP_INT32(lhs.valueForComparison);
-    /*
-    if (rhs.ipV4.v1 != lhs.ipV4.v1)
-    {
-        return rhs.ipV4.v1 < lhs.ipV4.v1;
-    }
-    else if (rhs.ipV4.v2 != lhs.ipV4.v2)
-    {
-        return rhs.ipV4.v2 < lhs.ipV4.v2;
-    }
-    else if (rhs.ipV4.v3 != lhs.ipV4.v3)
-    {
-        return rhs.ipV4.v3 < lhs.ipV4.v3;
-    }
-    return rhs.ipV4.v4 < lhs.ipV4.v4;
-    */
 }
 
 std::multiset<uIpV4> readDataFromFileToUipV4([[maybe_unused]] const std::string &fileName)
@@ -46,7 +31,7 @@ std::multiset<uIpV4> readDataFromFileToUipV4([[maybe_unused]] const std::string 
 
     if (!inputData.is_open())
     {
-        throw std::logic_error("I cannot open file " + fileName + "\n");
+        throw std::logic_error("I cannot open file \"" + fileName + "\" \n");
     }
 #endif
 

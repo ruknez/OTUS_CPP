@@ -30,10 +30,10 @@ if (MSVC)
     )
 else ()
     target_compile_options(sortIpV4HW2_cli PRIVATE
-        -Wall -O2 -Wextra -pedantic # -O2 решает (особеено в этом задании прирост производительности в 4 раза)
+        -Wall -O2 -Wextra -pedantic -Werror # -O2 решает (особеено в этом задании прирост производительности в 4 раза)
     )
     target_compile_options(sortIpV4HW2 PRIVATE
-        -Wall -O2 -Wextra -pedantic
+        -Wall -O2 -Wextra -pedantic -Werror
     )
 endif()
 

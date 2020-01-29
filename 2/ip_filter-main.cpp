@@ -7,7 +7,8 @@
 
 int main()
 {
-    /*
+
+#ifdef DEBUG
     uIpV4 test;
 
     test.ipV4.v1 = 46;
@@ -23,7 +24,7 @@ int main()
 
     std::cout << "size = " << sizeof(uIpV4) << std::endl;
     std::cout << "int size = " << sizeof(int) << std::endl;
-*/
+#endif
     try
     {
         std::multiset<uIpV4> setOfIpAddr = readDataFromFileToUipV4(gfileName);
@@ -46,15 +47,15 @@ int main()
             }
         }
     }
-    catch (const std::logic_error &logErr)
-    {
-        std::cerr << "Problem whith file " << logErr.what();
-    }
     catch (const std::invalid_argument &Err)
     {
         std::cerr << "Bad input data " << Err.what();
     }
-    catch(...)
+    catch (const std::logic_error &logErr)
+    {
+        std::cerr << "Problem whith file " << logErr.what();
+    }
+    catch (...)
     {
         std::cerr << "Unknown exception happend \n";
     }
