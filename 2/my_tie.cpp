@@ -1,6 +1,8 @@
 #include <string>
 #include <tuple>
 
+#include <iostream>
+
 #include <cassert>
 
 auto getPerson()
@@ -19,7 +21,7 @@ auto custom_tie(Args &...  values)
     return std::tuple<Args&...> (values...);
 }
 
-int main(int argc, char *argv[])
+int main([[maybe_unused]] int argc, [[maybe_unused]]char *argv[])
 {
     std::string name, secondName, department;
     std::size_t age;
@@ -28,5 +30,6 @@ int main(int argc, char *argv[])
     assert(secondName == "Ivanoff");
     assert(age == 23);
     assert(department == "Sale");
+    std::cout << "DONE \n";
     return 0;
 }

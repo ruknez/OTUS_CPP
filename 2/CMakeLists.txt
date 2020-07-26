@@ -9,10 +9,11 @@ else()
     project(sortIpV4HW2 VERSION 0.0.1)
 endif()
 
+add_executable(my_tie my_tie.cpp)
 add_executable(sortIpV4HW2_cli ip_filter-main.cpp)
 add_library(sortIpV4HW2 ip_filter.cpp)
 
-set_target_properties(sortIpV4HW2_cli sortIpV4HW2 PROPERTIES
+set_target_properties(sortIpV4HW2_cli sortIpV4HW2 my_tie PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
 )
@@ -28,6 +29,9 @@ if (MSVC)
     target_compile_options(sortIpV4HW2 PRIVATE
         /W4
     )
+    target_compile_options(my_tie PRIVATE
+        /W4
+    )
 else ()
     target_compile_options(sortIpV4HW2_cli PRIVATE
         -Wall -O2 -Wextra -pedantic -Werror # -O2 решает (особеено в этом задании прирост производительности в 4 раза)
@@ -35,6 +39,10 @@ else ()
     target_compile_options(sortIpV4HW2 PRIVATE
         -Wall -O2 -Wextra -pedantic -Werror
     )
+    target_compile_options(my_tie PRIVATE
+        -Wall -O2 -Wextra -pedantic -Werror
+    )
+
 endif()
 
 install(TARGETS sortIpV4HW2_cli RUNTIME DESTINATION bin)
