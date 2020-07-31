@@ -1,0 +1,56 @@
+In file included from /usr/include/c++/8/map:60,
+                 from main.cpp:3:
+/usr/include/c++/8/bits/stl_tree.h: In instantiation of ‘std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::_Rb_tree_impl<_Key_compare, <anonymous> >::_Rb_tree_impl(const std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::_Rb_tree_impl<_Key_compare, <anonymous> >&) [with _Key_compare = std::less<int>; bool <anonymous> = true; _Key = int; _Val = std::pair<const int, int>; _KeyOfValue = std::_Select1st<std::pair<const int, int> >; _Compare = std::less<int>; _Alloc = logging_allocator<std::pair<const int, int>, 4>]’:
+/usr/include/c++/8/bits/stl_tree.h:955:7:   required from here
+/usr/include/c++/8/bits/stl_tree.h:708:42: error: use of deleted function ‘logging_allocator<std::_Rb_tree_node<std::pair<const int, int> >, 4>::logging_allocator(const logging_allocator<std::_Rb_tree_node<std::pair<const int, int> >, 4>&)’
+    , _Base_key_compare(__x._M_key_compare)
+                                          ^
+In file included from main.cpp:5:
+my_allocator.h:25:8: note: ‘logging_allocator<std::_Rb_tree_node<std::pair<const int, int> >, 4>::logging_allocator(const logging_allocator<std::_Rb_tree_node<std::pair<const int, int> >, 4>&)’ is implicitly deleted because the default definition would be ill-formed:
+ struct logging_allocator
+        ^~~~~~~~~~~~~~~~~
+my_allocator.h:25:8: error: use of deleted function ‘std::unique_ptr<_Tp [], _Dp>::unique_ptr(const std::unique_ptr<_Tp [], _Dp>&) [with _Tp = std::_Rb_tree_node<std::pair<const int, int> >; _Dp = {anonymous}::DeleterForAllocator<std::_Rb_tree_node<std::pair<const int, int> > >]’
+In file included from /usr/include/c++/8/memory:80,
+                 from my_allocator.h:3,
+                 from main.cpp:5:
+/usr/include/c++/8/bits/unique_ptr.h:663:7: note: declared here
+       unique_ptr(const unique_ptr&) = delete;
+       ^~~~~~~~~~
+In file included from /usr/include/c++/8/bits/basic_string.h:40,
+                 from /usr/include/c++/8/string:52,
+                 from /usr/include/c++/8/bits/locale_classes.h:40,
+                 from /usr/include/c++/8/bits/ios_base.h:41,
+                 from /usr/include/c++/8/ios:42,
+                 from /usr/include/c++/8/ostream:38,
+                 from /usr/include/c++/8/iostream:39,
+                 from main.cpp:1:
+/usr/include/c++/8/ext/alloc_traits.h: In instantiation of ‘static _Alloc __gnu_cxx::__alloc_traits<_Alloc, <template-parameter-1-2> >::_S_select_on_copy(const _Alloc&) [with _Alloc = logging_allocator<std::_Rb_tree_node<std::pair<const int, int> >, 4>; <template-parameter-1-2> = std::_Rb_tree_node<std::pair<const int, int> >]’:
+/usr/include/c++/8/bits/stl_tree.h:707:54:   required from ‘std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::_Rb_tree_impl<_Key_compare, <anonymous> >::_Rb_tree_impl(const std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::_Rb_tree_impl<_Key_compare, <anonymous> >&) [with _Key_compare = std::less<int>; bool <anonymous> = true; _Key = int; _Val = std::pair<const int, int>; _KeyOfValue = std::_Select1st<std::pair<const int, int> >; _Compare = std::less<int>; _Alloc = logging_allocator<std::pair<const int, int>, 4>]’
+/usr/include/c++/8/bits/stl_tree.h:955:7:   required from here
+/usr/include/c++/8/ext/alloc_traits.h:95:67: error: use of deleted function ‘logging_allocator<std::_Rb_tree_node<std::pair<const int, int> >, 4>::logging_allocator(const logging_allocator<std::_Rb_tree_node<std::pair<const int, int> >, 4>&)’
+     { return _Base_type::select_on_container_copy_construction(__a); }
+                                                                   ^
+In file included from /usr/include/c++/8/ext/alloc_traits.h:36,
+                 from /usr/include/c++/8/bits/basic_string.h:40,
+                 from /usr/include/c++/8/string:52,
+                 from /usr/include/c++/8/bits/locale_classes.h:40,
+                 from /usr/include/c++/8/bits/ios_base.h:41,
+                 from /usr/include/c++/8/ios:42,
+                 from /usr/include/c++/8/ostream:38,
+                 from /usr/include/c++/8/iostream:39,
+                 from main.cpp:1:
+/usr/include/c++/8/bits/alloc_traits.h: In instantiation of ‘static _Alloc std::allocator_traits<_Alloc>::select_on_container_copy_construction(const _Alloc&) [with _Alloc = logging_allocator<std::_Rb_tree_node<std::pair<const int, int> >, 4>]’:
+/usr/include/c++/8/ext/alloc_traits.h:95:63:   required from ‘static _Alloc __gnu_cxx::__alloc_traits<_Alloc, <template-parameter-1-2> >::_S_select_on_copy(const _Alloc&) [with _Alloc = logging_allocator<std::_Rb_tree_node<std::pair<const int, int> >, 4>; <template-parameter-1-2> = std::_Rb_tree_node<std::pair<const int, int> >]’
+/usr/include/c++/8/bits/stl_tree.h:707:54:   required from ‘std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::_Rb_tree_impl<_Key_compare, <anonymous> >::_Rb_tree_impl(const std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::_Rb_tree_impl<_Key_compare, <anonymous> >&) [with _Key_compare = std::less<int>; bool <anonymous> = true; _Key = int; _Val = std::pair<const int, int>; _KeyOfValue = std::_Select1st<std::pair<const int, int> >; _Compare = std::less<int>; _Alloc = logging_allocator<std::pair<const int, int>, 4>]’
+/usr/include/c++/8/bits/stl_tree.h:955:7:   required from here
+/usr/include/c++/8/bits/alloc_traits.h:379:34: error: use of deleted function ‘logging_allocator<std::_Rb_tree_node<std::pair<const int, int> >, 4>::logging_allocator(const logging_allocator<std::_Rb_tree_node<std::pair<const int, int> >, 4>&)’
+       { return _S_select(__rhs, 0); }
+                                  ^
+/usr/include/c++/8/bits/alloc_traits.h: In instantiation of ‘static _Alloc2 std::allocator_traits<_Alloc>::_S_select(_Alloc2&, ...) [with _Alloc2 = const logging_allocator<std::_Rb_tree_node<std::pair<const int, int> >, 4>; _Alloc = logging_allocator<std::_Rb_tree_node<std::pair<const int, int> >, 4>]’:
+/usr/include/c++/8/bits/alloc_traits.h:379:25:   required from ‘static _Alloc std::allocator_traits<_Alloc>::select_on_container_copy_construction(const _Alloc&) [with _Alloc = logging_allocator<std::_Rb_tree_node<std::pair<const int, int> >, 4>]’
+/usr/include/c++/8/ext/alloc_traits.h:95:63:   required from ‘static _Alloc __gnu_cxx::__alloc_traits<_Alloc, <template-parameter-1-2> >::_S_select_on_copy(const _Alloc&) [with _Alloc = logging_allocator<std::_Rb_tree_node<std::pair<const int, int> >, 4>; <template-parameter-1-2> = std::_Rb_tree_node<std::pair<const int, int> >]’
+/usr/include/c++/8/bits/stl_tree.h:707:54:   required from ‘std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::_Rb_tree_impl<_Key_compare, <anonymous> >::_Rb_tree_impl(const std::_Rb_tree<_Key, _Val, _KeyOfValue, _Compare, _Alloc>::_Rb_tree_impl<_Key_compare, <anonymous> >&) [with _Key_compare = std::less<int>; bool <anonymous> = true; _Key = int; _Val = std::pair<const int, int>; _KeyOfValue = std::_Select1st<std::pair<const int, int> >; _Compare = std::less<int>; _Alloc = logging_allocator<std::pair<const int, int>, 4>]’
+/usr/include/c++/8/bits/stl_tree.h:955:7:   required from here
+/usr/include/c++/8/bits/alloc_traits.h:288:11: error: use of deleted function ‘logging_allocator<std::_Rb_tree_node<std::pair<const int, int> >, 4>::logging_allocator(const logging_allocator<std::_Rb_tree_node<std::pair<const int, int> >, 4>&)’
+  { return __a; }
+           ^~~
