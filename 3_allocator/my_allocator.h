@@ -6,7 +6,7 @@
 #define __PRETTY_FUNCTION__ __FUNCSIG__
 #endif
 
-#define __DEBUGE__
+//#define __DEBUGE__
 
 namespace
 {
@@ -15,7 +15,7 @@ namespace
     {
         void operator()(X *memPtp)
         {
-            std::cout << "Calling delete for logging_allocator ... \n";
+            //std::cout << "Calling delete for logging_allocator ... \n";
             free(static_cast<void *>(memPtp));
         }
     };
@@ -25,10 +25,23 @@ template <class T, size_t MaxSize>
 struct logging_allocator
 {
 private:
-    std::unique_ptr<T[], DeleterForAllocator<T>> ptrToData_; // nullptr, myDeliter);
-    T *currentElement = nullptr;
-    size_t counter = 0;
-    // const size_t MaxSize = 5;
+    using uniqPtr = std::unique_ptr<T[], DeleterForAllocator<T>>;
+
+    std::map<size_t, std::pair<uniqPtr, size_t>, std::greater<size_t>> mainMemRepository_;
+    //std::map<uniqPtr ,size_t, std::greater<uniqPtr>> mainMemRepository_;
+    decltype(mainMemRepository_.begin()) currentMemBloc_;
+
+    void addNewMemBloc()
+    {
+        auto memPtr = static_cast<T *>(std::malloc(MaxSize * sizeof(T)));
+        if (!memPtr)
+            throw std::bad_alloc();
+
+        //std::cout << "memPte = " << reinterpret_cast<size_t>(memPtr) << std::endl;
+
+        // было  бы неплохо провеять на успе  // 17 стандарт что он не может догадаться что тут пара ???? (очевидно же)
+        std::tie(currentMemBloc_, std::ignore) = mainMemRepository_.emplace(std::make_pair(reinterpret_cast<size_t>(memPtr), std::make_pair(uniqPtr{memPtr, DeleterForAllocator<T>()}, 0)));
+    }
 
 public:
     using value_type = T;
@@ -38,53 +51,83 @@ public:
     using reference = T &;             // (deprecated in C++17)(removed in C++20)
     using const_reference = const T &; //(deprecated in C++17)(removed in C++20)
 
-    template <typename U> // (deprecated in C++17)(removed in C++20)
+    template <class U> // (deprecated in C++17)(removed in C++20)
     struct rebind
     {                                                // для дополнительных данных (мето информации)
         using other = logging_allocator<U, MaxSize>; // зависит  от компелятора
     };
 
     //=============================================================================
-    logging_allocator() : ptrToData_(nullptr, DeleterForAllocator<T>())
+    logging_allocator() //: mainMemRepository_({(nullptr, DeleterForAllocator<T>()), 0})//,currentMemBloc_(mainMemRepository_.begin())
     {
-        std::cout << "CONSTRUCTOR" << std::endl;
-        auto memPtr = static_cast<T *>(std::malloc(MaxSize * sizeof(T)));
-        if (!memPtr)
-            throw std::bad_alloc();
-
-        ptrToData_.reset(memPtr); //, myDeliter);
-        currentElement = ptrToData_.get();
+        //        std::cout << "CONSTRUCTOR" << std::endl;
+        addNewMemBloc();
     }
 
-    ~logging_allocator() = default;
+    logging_allocator(const logging_allocator<T, MaxSize> & al)
+    {
+         std::cout << "COPY CONSTRUCTOR" << std::endl;
+    }
+
+    //=============================================================================
+    ~logging_allocator()
+    {
+        // for (const auto &it : mainMemRepository_)
+        // {
+        //     std::cout << "it = " << reinterpret_cast<size_t>(it.second.first.get()) << std::endl;
+        // }
+    }
+
+    // template <class U, size_t MaxSize1>
+    // logging_allocator<U, MaxSize1> select_on_container_copy_construction()
+    // {
+    //     logging_allocator<U, MaxSize1> r;
+    //     return r;
+    // }
 
     //=============================================================================
     template <class U, size_t MS>
-    logging_allocator(const logging_allocator<U, MS> &)
+    logging_allocator(const logging_allocator<U, MS> &alloc)
     {
         std::cout << "COPY CONSTRUCTOR" << std::endl;
     }
 
     //=============================================================================
-    T *allocate(std::size_t n)
-    { // количество элементов
-#ifdef __DEBUGE__
-        std::cout << __PRETTY_FUNCTION__ << "[n = " << n << "]" << std::endl
-                  << std::endl;
-#endif
-        if (n != 1 || counter >= MaxSize)
-            throw std::bad_alloc();
-
-        return (currentElement + counter++);
-    }
-
-    //=============================================================================
-    void deallocate(T *p, std::size_t n)
+    T *allocate(std::size_t n) // количество элементов
     {
 #ifdef __DEBUGE__
         std::cout << __PRETTY_FUNCTION__ << "[n = " << n << "]" << std::endl
                   << std::endl;
 #endif
+        if (n != 1)
+            throw std::bad_alloc();
+        if (currentMemBloc_->second.second >= MaxSize)
+        {
+            addNewMemBloc();
+        }
+        //        std::cout << "counter = " << currentMemBloc_->second.second << std::endl;
+        return (currentMemBloc_->second.first.get() + currentMemBloc_->second.second++);
+    }
+
+    //=============================================================================
+    void deallocate(T *p, std::size_t n)
+    {
+
+#ifdef __DEBUGE__
+        std::cout << __PRETTY_FUNCTION__ << "[n = " << n << "]" << std::endl
+                  << std::endl;
+#endif
+        if (n != 1)
+            throw("Cannot deallocate n = " + std::to_string(n) + "\n");
+
+        //        std::cout << "p = " << size_t(p) << std::endl;
+        auto it = mainMemRepository_.lower_bound(reinterpret_cast<size_t>(p));
+        it->second.second--;
+        if (it->second.second <= 0)
+        {
+            mainMemRepository_.erase(it);
+        }
+        //        std::cout << "deallocate mainMemRepository_ size = " << mainMemRepository_.size() << std::endl;
         //std::free(p);
     }
 
